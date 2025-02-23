@@ -1,0 +1,28 @@
+* Notazione
+
+La [[https://en.wikipedia.org/wiki/Algebraic_notation_(chess)][notazione algebrica]] permette di rappresentare una mossa in diversi modi.
+Questo è noioso e complicato per un progetto personale. Scelgo solo pochi casi
+da controllare.
+
+Coordinata della board: <colonna><riga>, con colonne da [A-H] e righe da [1-8].
+
+- più semplice
+- più elaborato
+  - [ ] traduzione coordinate > notazione
+  - [ ] traduzione notazione > coordinate
+  - [ ] movimento: "A8A7"
+  - [ ] cattura: "A8xA7"
+  - [ ] castellamento
+  - [ ] promozione
+  - [ ] scacco
+  - [ ] scaccomatto
+
+Pezzi
+
+- [ ] 'pP' pedone
+- [ ] 'rR' torre
+- [ ] 'tT' cavallo
+- [ ] 'bB' alfiere
+- [ ] 'qQ' regina
+- [ ] 'kK' re
+
