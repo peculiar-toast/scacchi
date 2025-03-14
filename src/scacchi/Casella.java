@@ -1,9 +1,13 @@
+package scacchi;
+
+import scacchi.Utile.Colour;
+
 class Casella 
 {
     private Colour colore;
-    private Entita pezzo;
+    private Pezzo pezzo;
 
-    Casella (Colour colore, Entita pezzo)
+    Casella (Colour colore, Pezzo pezzo)
     {
 	this.colore = colore;
 	this.pezzo = pezzo;
@@ -28,12 +32,12 @@ class Casella
     }
 
     /* pezzo */
-    public Entita getPezzo() 
+    public Pezzo getPezzo() 
     {
 	return this.pezzo;
     }
     
-    public void setPezzo(Entita pezzo) 
+    public void setPezzo(Pezzo pezzo) 
     {
 	this.pezzo = pezzo;
     }
