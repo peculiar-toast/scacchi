@@ -1,9 +1,7 @@
 package test;
 
-import scacchi.Griglia;
-import scacchi.MossaPezzoException;
-import scacchi.Pedone;
-import scacchi.Utile.Colour;;
+import scacchi.*;
+import scacchi.Utile.*;
 
 class TestGriglia {
     
@@ -47,11 +45,42 @@ class TestGriglia {
 	return false;
     }
 
+    public static boolean testCheckmate1() {
+	System.out.println("   *** testCheckmate1: Nessun re in check ******");
+	Griglia g = new Griglia();
+	g.addPezzo(new Re(Colour.WHITE), 0, 0);
+	g.addPezzo(new Re(Colour.BLACK), 4, 4);
+
+	boolean risultato = false;
+	try {
+	    risultato = g.aggiornaScacco();
+	} catch (PezzoException pe) {
+	    risultato = false;
+	}
+	return risultato;
+    }
+
+    public static boolean testCheckmate2() {
+	System.out.println("   *** testCheckmate1: re nero in check ******");
+	Griglia g = new Griglia();
+	g.addPezzo(new Re(Colour.WHITE), 0, 0);
+	g.addPezzo(new Re(Colour.BLACK), 4, 4);
+	g.addPezzo(new Pedone(Colour.WHITE), 5, 5);
+	g.print();
+	return true;
+    }
+    
+    public static boolean testCheckmate() {
+	System.out.println("****** testCheckmate ******");
+	return
+	    !testCheckmate1() &&
+	    testCheckmate2();
+    }
     
     public static void main(String[] args) {
-	System.out.println(testCatturaCorretta1());
-	System.out.println(testCatturaCorretta2());
-	
-	System.out.println(testMossaFallita1());
+	System.out.println(testCatturaCorretta1() &&
+			   testCatturaCorretta2() &&
+			   testCheckmate() &&
+			   testMossaFallita1());
     }
 }

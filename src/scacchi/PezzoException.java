@@ -1,7 +1,7 @@
 package scacchi;
 
-class PezzoException extends Exception {
-    PezzoException(String messaggio) {
+public class PezzoException extends Exception {
+    public PezzoException(String messaggio) {
 	super(messaggio);
     }
 }

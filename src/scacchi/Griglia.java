@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.ArrayDeque;
 
 import scacchi.Utile.Colour;
+import scacchi.Utile.ChessPiece;
+import scacchi.PezzoException;
 
 public class Griglia {
     private static final int GRID_LEN = 8;
@@ -85,13 +87,43 @@ public class Griglia {
      * trova i re
      * guarda se ogni re è sotto scacco
      */
-    private boolean aggiornaScacco() {
-	Casella casellaReBianco, casellaReNero;
-	casellaReBianco = casellaReNero = null;
+    public boolean aggiornaScacco() throws PezzoException
+    {
+	int biancoRow, biancoCol;
+	int neroRow, neroCol;
+	biancoRow = biancoCol = neroRow = neroCol = -1;
 	for (int i = 0; i < GRID_LEN; i++) {
 	    for (int j = 0; j < GRID_LEN; j++) {
 		Pezzo pezzo = scacchiera[i][j].getPezzo();
-		// TODO continua
+		if (pezzo != null && pezzo.getTipo() == ChessPiece.KING) {
+		    if (pezzo.getColour() == Colour.WHITE) {
+			biancoRow = i;
+			biancoCol = j;
+		    } else {
+			neroRow = i;
+			neroRow = j;
+		    }
+		}
+	    }
+	}
+
+	if (biancoRow == -1 || neroRow == -1)
+	    throw new PezzoException("devono esserci un re bianco e uno nero");
+
+	for (int i = 0; i < GRID_LEN; i++) {
+	    for (int j = 0; j < GRID_LEN; j++) {
+		Pezzo p = scacchiera[i][j].getPezzo();
+		if (p != null) {
+		    if (p.getColour() == Colour.WHITE) {
+			if (p.verificaMossa(i, j, neroRow, neroCol, true)) {
+			    this.scaccoReNero = true;
+			}
+		    } else {
+			if (p.verificaMossa(i, j, biancoRow, biancoCol, true)) {
+			    this.scaccoReBianco = true;
+			}
+		    }
+		}
 	    }
 	}
 	return this.scaccoReNero || this.scaccoReBianco;
@@ -145,12 +177,5 @@ public class Griglia {
      */
     private boolean isFloor(int row, int col) {
 	return scacchiera[row][col].getPezzo() == null;
-    }
-
-    /**
-     * @return true se casella a posizione e bianca
-     */
-    private boolean isWhiteSpace(int row, int col) {
-	return scacchiera[row][col].getColore() == Colour.WHITE;
     }
 }
