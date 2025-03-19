@@ -1,46 +1,38 @@
 package test;
 
-import scacchi.*;
-import scacchi.Utile.*;
+import scacchi.Griglia;
 
 class TestGriglia {
-	public static Griglia tmpGriglia = new Griglia(false);
-
 	public static boolean testCatturaCorretta1() {
 		System.out.println("*** testCatturaCorretta1 ***");
-		Griglia g = new Griglia(tmpGriglia);
-		/*
-		g.addPezzo(new Pedone(Colour.WHITE), 4, 4);
-		g.addPezzo(new Pedone(Colour.BLACK), 3, 3);
-		try {
-			g.mossaNotazione("E4D5");
-		} catch (MossaPezzoException mpe) {
-			System.out.println(mpe.getMessage());
+		Griglia g = new Griglia(false);
+		if (!g.mossaNotazione("E2E4")) {
+			System.out.println("Errore in E2E4");
+			g.print();
 			return false;
 		}
-		*/
+		if (!g.mossaNotazione("D7D5")) {
+			System.out.println("Errore in D7D5");
+			g.print();
+			return false;
+		}
+		if (!g.mossaNotazione("E4D5")) {
+			System.out.println("Errore in E4D5");
+			g.print();
+			return false;
+		}
 		return true;
 	}
 
 	public static boolean testCatturaCorretta2() {
 		System.out.println("*** testCatturaCorretta2 ***");
-		Griglia g = new Griglia(tmpGriglia);
-		/*
-		g.addPezzo(new Pedone(Colour.WHITE), 4, 4);
-		g.addPezzo(new Pedone(Colour.BLACK), 3, 3);
-		try {
-			g.mossaNotazione("D5E4");
-		} catch (MossaPezzoException mpe) {
-			System.out.println(mpe.getMessage());
-			return false;
-		}
-		*/
+		Griglia g = new Griglia(false);
 		return true;
 	}
 
 	public static boolean testMossaFallita1() {
 		System.out.println("*** testMossaFallita1 ***");
-		Griglia g = new Griglia(tmpGriglia);
+		Griglia g = new Griglia(false);
 		/*
 		g.addPezzo(new Pedone(Colour.WHITE), 4, 4);
 		try {
@@ -129,11 +121,6 @@ class TestGriglia {
 	}
 
 	public static void main(String[] args) {
-		//tmpGriglia.addPezzo(new Re(Colour.BLACK), 0, 4);
-		//tmpGriglia.addPezzo(new Re(Colour.WHITE), 7, 4);
-		System.out.println(testCatturaCorretta1() &&
-				testCatturaCorretta2() &&
-				testMossaFallita1() &&
-				testCheckmate());
+		System.out.println(testCatturaCorretta1());
 	}
 }
