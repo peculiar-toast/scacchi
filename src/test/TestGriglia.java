@@ -1,57 +1,50 @@
 package test;
 
 import scacchi.Griglia;
-import scacchi.MossaPezzoException;
 import scacchi.Pedone;
 import scacchi.Utile.Colour;;
 
-class TestGriglia {
+class TestGriglia extends Griglia {
     
-    public static boolean testCatturaCorretta1() {
-	System.out.println("*** testCatturaCorretta1 ***");
+    // deve funzionare. pedone bianco può catturare
+    public static boolean testCatturaBianco() {
+	System.out.println("*** testCatturaBianco ***");
 	Griglia g = new Griglia();
 	g.addPezzo(new Pedone(Colour.WHITE), 4, 4);
 	g.addPezzo(new Pedone(Colour.BLACK), 3, 3);
-	try {
-	    g.mossaNotazione("E4D5");
-	} catch (MossaPezzoException mpe) {
-	    System.out.println(mpe.getMessage());
-	    return false;
-	}
-	return true;
-    }
-    
-    public static boolean testCatturaCorretta2() {
-	System.out.println("*** testCatturaCorretta2 ***");
-	Griglia g = new Griglia();
-	g.addPezzo(new Pedone(Colour.WHITE), 4, 4);
-	g.addPezzo(new Pedone(Colour.BLACK), 3, 3);
-	try {
-	    g.mossaNotazione("D5E4");
-	} catch (MossaPezzoException mpe) {
-	    System.out.println(mpe.getMessage());
-	    return false;
-	}
-	return true;
+	return g.mossaNotazione("E4D5");
     }
 
-    public static boolean testMossaFallita1() {
-	System.out.println("*** testMossaFallita1 ***");
+    // deve funzionare. pedone nero può catturare
+    public static boolean testCatturaNero() {
+	System.out.println("*** testCatturaNero ***");
 	Griglia g = new Griglia();
 	g.addPezzo(new Pedone(Colour.WHITE), 4, 4);
-	try {
-	    g.mossaNotazione("D5E9");
-	} catch (MossaPezzoException mpe) {
-	    return true;
-	}
-	return false;
+	g.addPezzo(new Pedone(Colour.BLACK), 3, 3);
+	return g.mossaNotazione("D5E4");
+    }
+
+    // deve fallire. pezzo non può andare fuori dalla scacchiera
+    public static boolean testMossaFuoriScacchiera() {
+	System.out.println("*** testMossaFuoriScacchiera ***");
+	Griglia g = new Griglia();
+	g.addPezzo(new Pedone(Colour.WHITE), 4, 4);
+	return !g.mossaNotazione("D5E9");
+    }
+
+    // deve fallire. non posso muovere un pezzo che non esiste
+    public static boolean testMossaPezzoNull() {
+	System.out.println("*** testMossaPezzoNull ***");
+	Griglia g = new Griglia();
+	return !g.mossaNotazione("D5E9");
     }
 
     
     public static void main(String[] args) {
-	System.out.println(testCatturaCorretta1());
-	System.out.println(testCatturaCorretta2());
+	System.out.println(testCatturaBianco());
+	System.out.println(testCatturaNero());
 	
-	System.out.println(testMossaFallita1());
+	System.out.println(testMossaFuoriScacchiera());
+	System.out.println(testMossaPezzoNull());
     }
 }

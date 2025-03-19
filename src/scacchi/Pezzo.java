@@ -5,7 +5,6 @@ import scacchi.Utile.ChessPiece;
 
 /**
  * Classe base di ogni pezzo
- * I metodi di questa classe dovrebbero fallire se chiamati
  */
 public abstract class Pezzo {
     private Colour colour;
