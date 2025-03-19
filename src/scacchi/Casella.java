@@ -13,6 +13,12 @@ class Casella
 	this.pezzo = pezzo;
     }
 
+    Casella (Casella c)
+    {
+	this.colore = c.colore;
+	this.pezzo = (c.getPezzo() == null)? null : c.pezzo.clone();
+    }
+
     /* lettera corrispondente */
     public char getLettera()
     {

@@ -12,11 +12,13 @@ public class Griglia {
     private Casella [][] scacchiera;
     private boolean scaccoReBianco, scaccoReNero;
     private boolean inPartita;
+    private boolean turnoBianco;
     private ArrayList<String> logs; // contiene tutti i messaggi
     private ArrayDeque<String> msg; // messaggi vengono mostrati, poi inseriti in logs
     
     public Griglia() {
 	this.inPartita = true;
+	this.turnoBianco = true;
 	this.scaccoReBianco = this.scaccoReNero = false;
 
 	scacchiera = new Casella[GRID_LEN][GRID_LEN];
@@ -31,6 +33,23 @@ public class Griglia {
 	}
     }
 
+    public Griglia(Griglia g) {
+	this.scaccoReBianco = g.scaccoReBianco;
+	this.scaccoReNero = g.scaccoReNero;
+	this.inPartita = g.inPartita;
+	this.turnoBianco = g.turnoBianco;
+	this.logs = new ArrayList<String>();
+	this.msg = new ArrayDeque<String>();
+
+
+	this.scacchiera = new Casella[GRID_LEN][GRID_LEN];
+	for (int riga = 0; riga < GRID_LEN; riga++) {
+	    for (int colonna = 0; colonna < GRID_LEN; colonna++) {
+		this.scacchiera[riga][colonna] = new Casella(g.scacchiera[riga][colonna]);
+	    }
+	}
+    }
+
     /**
      * uso per piazzare pezzi in uno stato iniziale
      */
@@ -38,6 +57,46 @@ public class Griglia {
 	for (int colonna = 0; colonna < GRID_LEN; colonna++) {
 	    scacchiera[1][colonna].setPezzo(new Pedone(Colour.BLACK));
 	    scacchiera[GRID_LEN - 2][colonna].setPezzo(new Pedone(Colour.WHITE));
+	}
+	addPezzo(new Torre(Colour.WHITE),  'A', 1);
+	addPezzo(new Cavallo(Colour.WHITE),'B', 1);
+	addPezzo(new Alfiere(Colour.WHITE),'C', 1);
+	addPezzo(new Re(Colour.WHITE),     'E', 1);
+	addPezzo(new Regina(Colour.WHITE), 'D', 1);
+	addPezzo(new Alfiere(Colour.WHITE),'F', 1);
+	addPezzo(new Cavallo(Colour.WHITE),'G', 1);
+	addPezzo(new Torre(Colour.WHITE),  'H', 1);
+
+	addPezzo(new Torre(Colour.BLACK),  'A', 8);
+	addPezzo(new Cavallo(Colour.BLACK),'B', 8);
+	addPezzo(new Alfiere(Colour.BLACK),'C', 8);
+	addPezzo(new Re(Colour.BLACK),     'E', 8);
+	addPezzo(new Regina(Colour.BLACK), 'D', 8);
+	addPezzo(new Alfiere(Colour.BLACK),'F', 8);
+	addPezzo(new Cavallo(Colour.BLACK),'G', 8);
+	addPezzo(new Torre(Colour.BLACK),  'H', 8);
+	try {
+	    aggiornaScacco();
+	} catch (PezzoException pe) {
+	    System.out.println(pe.getMessage());
+	}
+    }
+
+    public int toCoord(char col) {
+	return col - 'A';
+    }
+
+    public int toCoord(int row) {
+	return 8 - row;
+    }
+    
+    public void addPezzo(Pezzo pezzo, char col, int row) {
+	if ((col >= 'A' && col <= 'H') &&
+	    (row >= 1   && row <= 8)) {
+	    int nCol = toCoord(col);
+	    int nRow = toCoord(row);
+
+	    addPezzo(pezzo, nRow, nCol);
 	}
     }
 
@@ -101,7 +160,7 @@ public class Griglia {
 			biancoCol = j;
 		    } else {
 			neroRow = i;
-			neroRow = j;
+			neroCol = j;
 		    }
 		}
 	    }
@@ -129,31 +188,34 @@ public class Griglia {
 	return this.scaccoReNero || this.scaccoReBianco;
     }
 
-    public void mossaNotazione(String c) throws MossaPezzoException {
+    public boolean mossaNotazione(String c) throws MossaPezzoException {
 	c = c.toUpperCase();
 	int sCol = c.charAt(0) - 'A';
 	int sRow = '8' - c.charAt(1);
 	int eCol = c.charAt(2) - 'A';
 	int eRow = '8' - c.charAt(3);
 
-	mossa(sRow, sCol, eRow, eCol);
+	return mossa(sRow, sCol, eRow, eCol);
     }
     
     /**
-     * se mossa segue regole, sposta pezzo  
+     * se mossa segue regole, sposta pezzo
      * @return true se pezzo esiste e mossa avvenuta con successo
      */
-    public void mossa(int startRow, int startCol, int endRow, int endCol) throws MossaPezzoException
+    public boolean mossa(int startRow, int startCol, int endRow, int endCol) throws MossaPezzoException
     {
-	if (!isInsideBounds(startRow, startCol))
+	if (!isInsideBounds(startRow, startCol)) {
+	    msg.offer(String.format("[%d, %d] inizio mossa fuori da scacchiera", startRow, startCol));
 	    throw new MossaPezzoException("inizio mossa fuori da scacchiera", startRow, startCol);
+	}
 	if (!isInsideBounds(endRow, endCol))
 	    throw new MossaPezzoException("destinazione mossa fuori da scacchiera", endRow, endCol);
 	if (isFloor(startRow, startCol))
 	    throw new MossaPezzoException("nessun pezzo da muovere", startRow, startCol);
 
-	Casella casellaIniziale = scacchiera[startRow][startCol];
-	Casella casellaDestinazione = scacchiera[endRow][endCol];
+	Griglia tmpGriglia = new Griglia(this); // creo una copia temporanea
+	Casella casellaIniziale = tmpGriglia.scacchiera[startRow][startCol];
+	Casella casellaDestinazione = tmpGriglia.scacchiera[endRow][endCol];
 
 	// se casellaDestinazione ha pezzo nemico, allora cattura
 	// serve per pedone
@@ -162,7 +224,7 @@ public class Griglia {
 	    if (casellaDestinazione.getPezzo().getColour() != casellaIniziale.getPezzo().getColour()) {
 		cattura = true;		
 	    } else {
-		throw new MossaPezzoException("sto provando a catturare un alleato");
+		throw new MossaPezzoException("stai provando a catturare un pezzo dello stesso colore!");
 	    }
 	}
 
@@ -170,6 +232,19 @@ public class Griglia {
 	if (casellaIniziale.getPezzo().verificaMossa(startRow, startCol, endRow, endCol, cattura)) {
 	    spostaPezzo(casellaIniziale, casellaDestinazione);
 	}
+
+	try {
+	    tmpGriglia.aggiornaScacco(); // dopo aver fatto la mossa, controllo che risultato avrebbe
+	} catch (PezzoException pe) {
+	    System.out.println(pe.getMessage());
+	}
+
+	if (!(scaccoReBianco || scaccoReNero) ||
+	    (scaccoReBianco && !turnoBianco ||
+	     scaccoReNero   && turnoBianco)) {
+	    spostaPezzo(scacchiera[startRow][startCol], scacchiera[endRow][endCol]);
+	}
+	return true;
     }
     
     /**

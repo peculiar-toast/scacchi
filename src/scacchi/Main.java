@@ -9,11 +9,14 @@ class Main {
     public static void main (String[] args) {
 	g.statoIniziale();
 	g.print();
-	try {	
-	    g.mossaNotazione("A2a4");
-	} catch (PezzoException pe) {
-	    System.out.println(pe.getMessage());
+	while (true) {
+	    try {
+		String c = in.next();
+		g.mossaNotazione(c);
+	    } catch (PezzoException pe) {
+		System.out.println(pe.getMessage());
+	    }
+	    g.print();
 	}
-	g.print();
     }
 }

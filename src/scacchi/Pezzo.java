@@ -20,6 +20,8 @@ public abstract class Pezzo {
     public abstract char getLettera();
     public abstract boolean verificaMossa(int deltaRow, int deltaCol, boolean cattura);
     public abstract boolean verificaMossa(int startRow, int startCol, int endRow, int endCol, boolean cattura);
+
+    public abstract Pezzo clone();
 	
     /* tipo */
     public ChessPiece getTipo() {

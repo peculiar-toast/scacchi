@@ -9,20 +9,19 @@ Coordinata della board: <colonna><riga>, con colonne da [A-H] e righe da [1-8].
 - più semplice
 - più elaborato
   - [ ] traduzione coordinate > notazione
-  - [ ] traduzione notazione > coordinate
-  - [ ] movimento: "A8A7"
-  - [ ] cattura: "A8xA7"
+  - [X] traduzione notazione > coordinate
+  - [X] movimento: "A8A7"
   - [ ] castellamento
   - [ ] promozione
-  - [ ] scacco
+  - [X] scacco
   - [ ] scaccomatto
 
 Pezzi
 
-- [ ] 'pP' pedone
-- [ ] 'rR' torre
+- [X] 'pP' pedone
+- [ ] 'rR' torre, TODO test
 - [ ] 'tT' cavallo
-- [ ] 'bB' alfiere
-- [ ] 'qQ' regina
-- [ ] 'kK' re
+- [ ] 'bB' alfiere, TODO test
+- [ ] 'qQ' regina, TODO test
+- [X] 'kK' re
 

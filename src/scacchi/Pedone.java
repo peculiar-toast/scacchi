@@ -43,6 +43,10 @@ public class Pedone extends Pezzo {
 	
 	return corretto;
     }
+
+    public Pezzo clone() {
+	return new Pedone(this.getColour());
+    }
     
     public char getLettera()
     {
