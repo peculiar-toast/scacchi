@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "scacchi.Main",
+            "projectName": "scacchi_203f6ef7"
+        },
+        {
+            "type": "java",
+            "name": "TestGriglia",
+            "request": "launch",
+            "mainClass": "test.TestGriglia",
+            "projectName": "scacchi_203f6ef7"
+        },
+        {
+            "type": "java",
+            "name": "TestPedone",
+            "request": "launch",
+            "mainClass": "test.TestPedone",
+            "projectName": "scacchi_203f6ef7"
+        },
+        {
+            "type": "java",
+            "name": "TestRe",
+            "request": "launch",
+            "mainClass": "test.TestRe",
+            "projectName": "scacchi_203f6ef7"
+        },
+        {
+            "type": "java",
+            "name": "TestRegina",
+            "request": "launch",
+            "mainClass": "test.TestRegina",
+            "projectName": "scacchi_203f6ef7"
+        }
+    ]
+}

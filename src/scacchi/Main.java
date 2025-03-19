@@ -1,26 +1,41 @@
 package scacchi;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Scanner;
 
 class Main {
-    static Scanner in = new Scanner(System.in);
-    static Griglia g = new Griglia();
-    
-    public static void getMossa()
-    {
-		System.out.print("inserisci mossa [a1A2]: ");
-		String c = in.next().toUpperCase();
-		int sCol = c.charAt(0) - 'A';
-		int sRow = '8' - c.charAt(1);	
-		int eCol = c.charAt(2) - 'A';
-		int eRow = '8' - c.charAt(3);
-		g.mossa(sRow, sCol, eRow, eCol);
-    }
-    
-    public static void main (String[] args) {
-		g.statoIniziale();
-		g.print();
-		g.mossaNotazione("A2a4");
-		g.print();
-    }
+	
+
+	public static void caricaPartita(String nomeFile, Griglia g) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(nomeFile));
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				g.mossaNotazione(line);
+			}
+			br.close();
+		} catch (Exception e) {
+			System.out.println("Errore apertura file: " + e.getMessage());
+			return;
+		}
+	}
+
+	public static void main(String[] args) {
+		Griglia g = new Griglia(true);
+		caricaPartita("partita.txt", g);
+		Scanner in = new Scanner(System.in);
+		while (true) {
+			g.print();
+			System.out.println("Inserisci mossa: ");
+			String c = "";
+			if (in.hasNext()) {
+				c = in.next();
+			} else {
+				System.out.println("no input");
+				break;
+			}
+			g.mossaNotazione(c);
+		}
+	}
 }
