@@ -24,9 +24,12 @@ public class Cavallo extends Pezzo {
         dRow = toPos(dRow);
         dCol = toPos(dCol);
 
-        mossaVerificata &= (dRow == 1 && dCol == 2) ||
-                (dRow == 2 && dCol == 1);
+        mossaVerificata &= (dRow == 1 && dCol == 2) || (dRow == 2 && dCol == 1);
         return mossaVerificata;
+    }
+
+    public boolean puoSaltare() {
+        return true;
     }
 
     public Pezzo clone() {

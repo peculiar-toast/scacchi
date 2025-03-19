@@ -23,16 +23,19 @@ public abstract class Pezzo {
 
     public abstract boolean verificaMossa(int startRow, int startCol, int endRow, int endCol, boolean cattura);
 
+    public boolean puoSaltare() {
+        return false;
+    }
+
+    public boolean puoPromuovere() {
+        return false;
+    }
+
     public abstract Pezzo clone();
 
     /* tipo */
     public ChessPiece getTipo() {
         return this.tipo;
-    }
-
-    public void setTipo(ChessPiece tipo) {
-        // TODO permetti solo se tipo == PAWN
-        this.tipo = tipo;
     }
 
     /* colour */

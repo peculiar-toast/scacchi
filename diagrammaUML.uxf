@@ -1,0 +1,27 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>70</x><y>80</y><w>460</w><h>400</h></coordinates><panel_attributes>Griglia
+-
+- GRID_LEN: int
+- scaccoReBianco: bool
+- scaccoReNero: bool
+- inPartita: bool
+- turnoBianco: bool
+-
++ Griglia(caricaStato: bool)
++ Griglia(g: Griglia)
++ clone(): Griglia
++ statoIniziale()
++ print()
++ mossaNotazione(c: String): bool
++ mossa(startRow: int, startCol: int, endRow: int, endCol: int)
+- segueRegoleMossa(startRow: int, startCol: int, endRow: int, endCol: int): bool
+- isPercorsoLibero(startRow: int, startCol: int, endRow: int, endCol: int): bool
+- aggiornaScacco(): bool
+- addPezzo(pezzo: Pezzo, col: char, row: int)
+- addPezzo(pezzo: Pezzo, row: int, col: int)
+- isInsideBounds(row: int, col: int): bool
+- spostaPezzo(partenza: Casella, fine: Casella)
+- toCoord(col: char): int
+- toCoord(row: int): int
+- toColonna(col: int): char
+- toRiga(row: int): int
+- isFloor(row: int, col: int): bool</panel_attributes><additional_attributes></additional_attributes></element></diagram>

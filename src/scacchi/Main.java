@@ -3,20 +3,21 @@ package scacchi;
 import java.util.Scanner;
 
 class Main {
-	static Scanner in = new Scanner(System.in);
-	static Griglia g = new Griglia();
-
+	
 	public static void main(String[] args) {
-		g.statoIniziale();
-		g.print();
+		Scanner in = new Scanner(System.in);
+		Griglia g = new Griglia(true);
 		while (true) {
-			try {
-				String c = in.next();
-				g.mossaNotazione(c);
-			} catch (PezzoException pe) {
-				System.out.println(pe.getMessage());
-			}
 			g.print();
+			System.out.print("Inserisci mossa: ");
+			String c = "";
+			if (in.hasNext()) {
+				c = in.next();
+			} else {
+				System.out.println("no input");
+				break;
+			}
+			g.mossaNotazione(c);
 		}
 	}
 }

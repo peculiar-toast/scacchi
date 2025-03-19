@@ -44,6 +44,10 @@ public class Pedone extends Pezzo {
 		return corretto;
 	}
 
+	public boolean puoPromuovere() {
+		return true;
+	}
+
 	public Pezzo clone() {
 		return new Pedone(this.getColour());
 	}
