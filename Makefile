@@ -4,6 +4,8 @@ javas = $(wildcard $(src)*.java)
 
 all:
 	javac -d out $(javas)
+
+run:
 	java -cp out scacchi.Main
 
 clean:

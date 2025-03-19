@@ -5,7 +5,6 @@ import java.util.ArrayDeque;
 
 import scacchi.Utile.ChessPiece;
 import scacchi.Utile.Colour;
-import scacchi.Utile.ChessPiece;
 
 public class Griglia {
 	private static final int GRID_LEN = 8;
@@ -107,6 +106,22 @@ public class Griglia {
 
 	public void print() {
 		StringBuffer sb = new StringBuffer();
+		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"); // "clear screen"
+		sb.append("turno del giocatore: ");
+		
+		if (turnoBianco) {
+			sb.append("BIANCO\n");
+		} else {
+			sb.append("NERO\n");
+		}
+
+		if (scaccoReBianco) {
+			sb.append("re BIANCO sotto scacco\n");
+		}
+		if (scaccoReNero) {
+			sb.append("re NERO sotto scacco\n");
+		}
+		
 		for (int i = 0; i < GRID_LEN; i++) {
 			sb.append((char) ('0' + GRID_LEN - i) + "|");
 			for (int j = 0; j < GRID_LEN; j++) {
@@ -133,7 +148,7 @@ public class Griglia {
 		System.out.print(sb);
 	}
 
-	public boolean mossaNotazione(String c) {
+	public boolean mossa(String c) {
 		c = c.toUpperCase();
 		int sCol = c.charAt(0) - 'A';
 		int sRow = '8' - c.charAt(1);
@@ -172,19 +187,26 @@ public class Griglia {
 		}
 
 		if (mossaVerificata) {
-			spostaPezzo(casellaIniziale, casellaDestinazione); // sposta pezzo nella scacchiera temporanea
+			tmpGriglia.spostaPezzo(casellaIniziale, casellaDestinazione); // nella scacchiera temporanea, sposta pezzo
 		}
 
 		try {
-			tmpGriglia.aggiornaScacco(); // dopo aver fatto la mossa, controllo che risultato avrebbe
+			tmpGriglia.aggiornaScacco(); // dopo aver fatto la mossa, controllo che risultato ha avuto nella scacchiera temporanea
 		} catch (PezzoException pe) {
 			System.out.println(pe.getMessage());
 		}
 
-		if (!(scaccoReBianco || scaccoReNero) ||
-				(scaccoReBianco && !turnoBianco || scaccoReNero && turnoBianco)) {
+		if (!(tmpGriglia.scaccoReBianco || tmpGriglia.scaccoReNero) ||
+				(tmpGriglia.scaccoReBianco && !turnoBianco || tmpGriglia.scaccoReNero && turnoBianco)) {
 			spostaPezzo(scacchiera[startRow][startCol], scacchiera[endRow][endCol]);
+			try {
+				aggiornaScacco();
+			} catch (PezzoException pe) {
+				System.out.println(pe.getMessage());
+			}
 			turnoBianco = !turnoBianco;
+		} else {
+			msg.offer(String.format("non puoi muovere pezzo [%c%d]: re sotto scacco!", toColonna(startCol), toRiga(startRow)));
 		}
 
 		if (endRow == 0 || endRow == GRID_LEN - 1) {
@@ -274,17 +296,22 @@ public class Griglia {
 		if (biancoRow == -1 || neroRow == -1)
 			throw new PezzoException("devono esistere un re bianco e un re nero");
 
+		this.scaccoReNero = this.scaccoReBianco = false;
 		for (int i = 0; i < GRID_LEN; i++) {
 			for (int j = 0; j < GRID_LEN; j++) {
 				Pezzo p = scacchiera[i][j].getPezzo();
 				if (p != null) {
 					if (p.getColour() == Colour.WHITE) {
-						if (p.verificaMossa(i, j, neroRow, neroCol, true)) {
+						if (p.verificaMossa(i, j, neroRow, neroCol, true) &&
+							(p.puoSaltare() || isPercorsoLibero(i, j, neroRow, neroCol))) {
 							this.scaccoReNero = true;
+							msg.offer("re NERO sotto scacco da " + p.getLettera());
 						}
 					} else {
-						if (p.verificaMossa(i, j, biancoRow, biancoCol, true)) {
+						if (p.verificaMossa(i, j, biancoRow, biancoCol, true) &&
+							(p.puoSaltare() || isPercorsoLibero(i, j, biancoRow, biancoCol))) {
 							this.scaccoReBianco = true;
+							msg.offer("re BIANCO sotto scacco da " + p.getLettera());
 						}
 					}
 				}
@@ -332,7 +359,7 @@ public class Griglia {
 	}
 
 	public static int toRiga(int row) {
-		return GRID_LEN + row;
+		return GRID_LEN - row;
 	}
 
 	/**

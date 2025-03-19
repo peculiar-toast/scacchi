@@ -5,14 +5,12 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 class Main {
-	
-
 	public static void caricaPartita(String nomeFile, Griglia g) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(nomeFile));
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				g.mossaNotazione(line);
+				g.mossa(line);
 			}
 			br.close();
 		} catch (Exception e) {
@@ -35,7 +33,8 @@ class Main {
 				System.out.println("no input");
 				break;
 			}
-			g.mossaNotazione(c);
+			g.mossa(c);
 		}
+		in.close();
 	}
 }

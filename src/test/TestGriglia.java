@@ -6,17 +6,17 @@ class TestGriglia {
 	public static boolean testCatturaCorretta1() {
 		System.out.println("*** testCatturaCorretta1 ***");
 		Griglia g = new Griglia(false);
-		if (!g.mossaNotazione("E2E4")) {
+		if (!g.mossa("E2E4")) {
 			System.out.println("Errore in E2E4");
 			g.print();
 			return false;
 		}
-		if (!g.mossaNotazione("D7D5")) {
+		if (!g.mossa("D7D5")) {
 			System.out.println("Errore in D7D5");
 			g.print();
 			return false;
 		}
-		if (!g.mossaNotazione("E4D5")) {
+		if (!g.mossa("E4D5")) {
 			System.out.println("Errore in E4D5");
 			g.print();
 			return false;
