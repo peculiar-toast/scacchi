@@ -4,12 +4,13 @@ import scacchi.Utile.*;
 
 public class Pedone extends Pezzo {
 	private char lettera;
-	private boolean primaMossa; // per controllare se puo muoversi di due spazi
+	private boolean primaMossa = true; // per controllare se puo muoversi di due spazi
+
+
 
 	public Pedone(Colour colour) {
 		super(colour, ChessPiece.PAWN);
 		lettera = (colour == Colour.WHITE) ? 'p' : 'P';
-		primaMossa = true;
 	}
 
 	/**
@@ -36,11 +37,6 @@ public class Pedone extends Pezzo {
 			boolean verificaMovimentoVerticale = deltaRow == 1 || (deltaRow == 2 && primaMossa);
 			corretto = evitaMovimentoOrizzontale && verificaMovimentoVerticale;
 		}
-
-		if (corretto && primaMossa) {
-			primaMossa = false;
-		}
-
 		return corretto;
 	}
 
@@ -54,5 +50,13 @@ public class Pedone extends Pezzo {
 
 	public char getLettera() {
 		return lettera;
+	}
+	
+	public boolean isPrimaMossa() {
+		return primaMossa;
+	}
+
+	public void mossaFatta() {
+		this.primaMossa = false;
 	}
 }

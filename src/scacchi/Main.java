@@ -23,7 +23,7 @@ class Main {
 		Griglia g = new Griglia(true);
 		caricaPartita("partita.txt", g);
 		Scanner in = new Scanner(System.in);
-		while (true) {
+		while (g.isInPartita()) {
 			g.print();
 			System.out.println("Inserisci mossa: ");
 			String c = "";

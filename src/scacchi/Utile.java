@@ -9,7 +9,7 @@ public class Utile {
 	public enum ChessPiece {
 		PAWN,
 		ROOK,
-		KNIGT,
+		KNIGTH,
 		BISHOP,
 		QUEEN,
 		KING,

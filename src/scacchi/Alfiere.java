@@ -4,7 +4,7 @@ import scacchi.Utile.*;
 
 public class Alfiere extends Pezzo {
     public Alfiere(Colour colore) {
-        super(colore, ChessPiece.QUEEN);
+        super(colore, ChessPiece.BISHOP);
     }
 
     public boolean verificaMossa(int sRow, int sCol, int eRow, int eCol, boolean cattura) {

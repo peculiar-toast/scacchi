@@ -4,7 +4,7 @@ import scacchi.Utile.*;
 
 public class Cavallo extends Pezzo {
     public Cavallo(Colour colore) {
-        super(colore, ChessPiece.QUEEN);
+        super(colore, ChessPiece.KNIGTH);
     }
 
     public boolean verificaMossa(int sRow, int sCol, int eRow, int eCol, boolean cattura) {

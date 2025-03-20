@@ -3,16 +3,17 @@ package scacchi;
 import scacchi.Utile.*;
 
 public class Torre extends Pezzo {
+    private boolean primaMossa = true;
     public Torre(Colour colore) {
-        super(colore, ChessPiece.QUEEN);
+        super(colore, ChessPiece.ROOK);
+    }
+    
+    public boolean verificaMossa(int dRow, int dCol) {
+        return verificaMossa(dRow, dCol, false);
     }
 
     public boolean verificaMossa(int sRow, int sCol, int eRow, int eCol, boolean cattura) {
         return verificaMossa(eRow - sRow, eCol - sCol, cattura);
-    }
-
-    public boolean verificaMossa(int dRow, int dCol) {
-        return verificaMossa(dRow, dCol, false);
     }
 
     public boolean verificaMossa(int dRow, int dCol, boolean cattura) {

@@ -9,6 +9,7 @@ import scacchi.Utile.ChessPiece;
 public abstract class Pezzo {
     private Colour colour;
     private ChessPiece tipo;
+    private boolean primaMossa = true;
 
     public Pezzo(Colour colour, ChessPiece tipo) {
         this.colour = colour;
@@ -41,4 +42,12 @@ public abstract class Pezzo {
     public Colour getColour() {
         return this.colour;
     }
+
+    public boolean isPrimaMossa() {
+		return primaMossa;
+	}
+
+	public void mossaFatta() {
+		this.primaMossa = false;
+	}
 }

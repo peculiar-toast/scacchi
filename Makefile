@@ -22,3 +22,10 @@ srcTestGriglia = src/test/TestGriglia.java src/scacchi/Griglia.java src/scacchi/
 testGriglia:
 	javac -d out $(srcTestGriglia)
 	java -cp out test.TestGriglia
+
+
+srcTestRegina = src/test/TestRegina.java src/scacchi/Regina.java src/scacchi/Pezzo.java src/scacchi/Utile.java
+
+testRegina:
+	javac -d out $(srcTestRegina)
+	java -cp out test.TestRegina
